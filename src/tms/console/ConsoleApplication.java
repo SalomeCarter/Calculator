@@ -23,32 +23,26 @@ public class ConsoleApplication implements Application {
 
     public void run() {
         boolean continuation = true;
-        double num1 = 0;
-        double num2 = 0;
-        boolean isValid = false;
-
         while (continuation) {
+            double num1 = 0;
+            double num2 = 0;
             String answer = "";
-            if (!isValid) {
-                writer.write("Enter number 1");
-                num1 = reader.readDouble();
-                isValid = operationValidator.isValidDigits(answer);
-                num1 = Double.parseDouble(answer);
 
-                isValid = false;
+            writer.write("Enter number 1");
+            num1 = reader.readDouble();
+            boolean isValid = operationValidator.isValidDigits(answer);
+            if (isValid) {
+            continue;
+            }
+
+            writer.write("Enter number 2");
+            num2 = reader.readDouble();
+           isValid = operationValidator.isValidDigits(answer);
+            if (isValid) {
                 continue;
             }
 
 
-            if (!isValid) {
-                writer.write("Enter number 2");
-                num2 = reader.readDouble();
-                isValid = operationValidator.isValidDigits(answer);
-
-            }
-            num2 = Double.parseDouble(answer);
-
-            isValid = false;
 
             writer.write("Enter operation type. Sum, sub, mul or div?");
 
@@ -82,7 +76,7 @@ public class ConsoleApplication implements Application {
                 case NO: {
                     writer.write(" ");
                     continuation = false;
-                    break;
+                    return;
                 }
                 default: {
                     continuation = false;
