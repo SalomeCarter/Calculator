@@ -14,6 +14,8 @@ import tms.util.Reader;
 import tms.util.Writer;
 import tms.validator.OperationValidator;
 
+import java.util.List;
+
 public class ConsoleApplication implements Application {
     private final OperationStorage storage = new InMemoryOperationStorage();
     private final Calculator calculator = new Calculator();
@@ -42,8 +44,6 @@ public class ConsoleApplication implements Application {
                 continue;
             }
 
-
-
             writer.write("Enter operation type. Sum, sub, mul or div?");
 
             Operation op;
@@ -65,8 +65,8 @@ public class ConsoleApplication implements Application {
             ResponseType response = reader.readResponseType();
             switch (response) {
                 case YES: {
-                    Operation[] all = storage.findAll();
-                    for (Operation operation : all) {
+                    List<Operation> operations = storage.findAll();
+                    for (Operation operation : operations) {
                         if(operation != null)
                             writer.write("Result = " + operation.getResult());
                     }
@@ -83,6 +83,20 @@ public class ConsoleApplication implements Application {
                 }
             }
         }
+
+        writer.write("Would you like to see operation storage? YES or NO?");
+        ResponseType reply = reader.readResponseType();
+        switch (reply) {
+            case YES: {
+                List<Operation> operations = storage.findAll();
+                for (Operation operation : operations) {
+                    writer.write("num1: " + operation.getNum1() + " " + operation.getType() + " num2: " + operation.getNum2() + " = " + operation.getResult());
+                }
+            }
+            default:
+                return;
+        }
+
         try {
             OperationType operationType = reader.readOperationType();
         } catch (OperationNotFoundException e) {

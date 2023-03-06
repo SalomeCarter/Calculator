@@ -3,6 +3,7 @@ package tms.console.util;
 import tms.console.enumpack.ResponseType;
 import tms.console.exception.OperationNotFoundException;
 import tms.entity.OperationType;
+
 import tms.util.Reader;
 
 import java.util.Scanner;
@@ -20,6 +21,9 @@ public class ConsoleReader implements Reader {
         String s = next.toUpperCase();
         return ResponseType.valueOf(s);
     }
+
+
+
 
 //    @Override
 //    public OperationType readOperationType() {

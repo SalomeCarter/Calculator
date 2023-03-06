@@ -2,12 +2,18 @@ package tms.storage;
 
 import tms.entity.Operation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class InMemoryOperationStorage implements OperationStorage {
-
-    private final Operation[] operations = new Operation[10];
+    private final List<Operation> history = new ArrayList<>();
+    @Override
     public void save(Operation operation) {
-
+        history.add(operation);
     }
 
-    public Operation[] findAll() { return operations; }
+    @Override
+    public List<Operation> findAll() {
+        return history;
+    }
 }
