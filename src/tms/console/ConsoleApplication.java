@@ -24,23 +24,19 @@ public class ConsoleApplication implements Application {
     private final OperationValidator operationValidator = new OperationValidator();
 
     public void run() {
-        boolean continuation = true;
-        while (continuation) {
-            double num1 = 0;
-            double num2 = 0;
-            String answer = "";
+        while (true) {
 
             writer.write("Enter number 1");
-            num1 = reader.readDouble();
-            boolean isValid = operationValidator.isValidDigits(answer);
-            if (isValid) {
-            continue;
+            var num1 = reader.readDouble();
+            if (!operationValidator.isValidDigits(String.valueOf(num1))) {
+                writer.write("num1 is not valid!");
+                continue;
             }
 
             writer.write("Enter number 2");
-            num2 = reader.readDouble();
-           isValid = operationValidator.isValidDigits(answer);
-            if (isValid) {
+            var num2 = reader.readDouble();
+            if (!operationValidator.isValidDigits(String.valueOf(num2))) {
+                writer.write("num2 is not valid!");
                 continue;
             }
 
@@ -67,23 +63,19 @@ public class ConsoleApplication implements Application {
                 case YES: {
                     List<Operation> operations = storage.findAll();
                     for (Operation operation : operations) {
-                        if(operation != null)
+                        if (operation != null) {
                             writer.write("Result = " + operation.getResult());
+                        }
                     }
                     writer.write("Ok, let`s continue");
                     break;
                 }
                 case NO: {
                     writer.write(" ");
-                    continuation = false;
-                    return;
-                }
-                default: {
-                    continuation = false;
+                    break;
                 }
             }
         }
-
         writer.write("Would you like to see operation storage? YES or NO?");
         ResponseType reply = reader.readResponseType();
         switch (reply) {
@@ -93,14 +85,9 @@ public class ConsoleApplication implements Application {
                     writer.write("num1: " + operation.getNum1() + " " + operation.getType() + " num2: " + operation.getNum2() + " = " + operation.getResult());
                 }
             }
-            default:
-                return;
-        }
-
-        try {
-            OperationType operationType = reader.readOperationType();
-        } catch (OperationNotFoundException e) {
-            writer.write("Operation not found!");
+            case NO: {
+                break;
+            }
         }
     }
 }
